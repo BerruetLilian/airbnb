@@ -62,7 +62,10 @@ const SignUp = () => {
   };
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+    <KeyboardAwareScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       <View style={styles.logoContainer}>
         <Image source={logo} style={styles.logo} resizeMode="contain" />
         <Text style={styles.logoLabel}>Sign up</Text>
@@ -143,6 +146,8 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     flex: 1,
     backgroundColor: "#fff",
+  },
+  contentContainer: {
     alignItems: "center",
     justifyContent: "space-around",
   },
