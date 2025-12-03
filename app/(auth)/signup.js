@@ -23,7 +23,6 @@ const SignUp = () => {
   const [confPassword, setConfPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async () => {
     if (!email || !password || !username || !desc || !confPassword) {
@@ -91,7 +90,10 @@ const SignUp = () => {
       <View style={styles.registerContainer}>
         <ErrorMessage text={errorMessage} />
         <MainButton text={"Sign up"} func={handleSubmit} loading={loading} />
-        <RedirectButton text={"Already have an account? Sign in"} />
+        <RedirectButton
+          text={"Already have an account? Sign in"}
+          screen={"/"}
+        />
       </View>
       <StatusBar style="auto" />
     </KeyboardAwareScrollView>
@@ -103,10 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  contentContainer: {
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
+  contentContainer: {},
   logoContainer: {
     alignItems: "center",
     gap: 20,

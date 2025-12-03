@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, StatusBar } from "react-native";
 import axios from "axios";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -11,45 +11,40 @@ import {
   MainButton,
   RedirectButton,
   ErrorMessage,
-} from "../../components/";
+} from "../../components";
+import { useAuth } from "../../context/AuthContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
 
   const handleSubmit = async () => {
     if (!email || !password) {
       setErrorMessage("Please fill all fields");
     } else {
-      try {
-        setLoading(true);
-        const response = await axios.post(
-          "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/log_in",
-          {
-            email: email,
-            password: password,
-          }
-        );
-        console.log("response=>", response.data);
-        alert("Connecté");
-        setLoading(false);
-      } catch (error) {
-        if (error.name === "AxiosError") {
-          console.log(error.response.data);
-          if (error.response.data.error === "Unauthorized") {
-            setErrorMessage("Mot de passe invalide");
+      setLoading(true);
+      login(
+        { email: email, password: password },
+        () => {
+          alert("Connecté");
+          setLoading(false);
+        },
+        (error) => {
+          if (error.name === "AxiosError") {
+            if (error.response.data.error === "Unauthorized") {
+              setErrorMessage("Mot de passe invalide");
+            } else {
+              setErrorMessage(error.response.data.error);
+            }
           } else {
-            setErrorMessage(error.response.data.error);
+            setErrorMessage(error.message);
           }
-        } else {
-          console.log(error.message);
-          setErrorMessage(error.message);
+          setLoading(false);
         }
-
-        setLoading(false);
-      }
+      );
     }
   };
 
