@@ -1,20 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import logo from "../../assets/img/airbnb_logo.webp";
+import { StyleSheet, View } from "react-native";
 import axios from "axios";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useState } from "react";
-import { Link } from "expo-router";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import {
+  ErrorMessage,
+  Input,
+  Logo,
+  MainButton,
+  PasswordInput,
+  RedirectButton,
+  TextArea,
+  Title,
+} from "../../components";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -67,75 +66,32 @@ const SignUp = () => {
       contentContainerStyle={styles.contentContainer}
     >
       <View style={styles.logoContainer}>
-        <Image source={logo} style={styles.logo} resizeMode="contain" />
-        <Text style={styles.logoLabel}>Sign up</Text>
+        <Logo />
+        <Title text={"Sign up"} />
       </View>
       <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+        <Input placeholder="email" state={email} setState={setEmail} />
+        <Input placeholder="username" state={username} setState={setUsername} />
+        <TextArea
+          placeholder="Describe yourself in a few words..."
+          state={desc}
+          setState={setDesc}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="username"
-          value={username}
-          onChangeText={(text) => setUsername(text)}
+        <PasswordInput
+          placeholder={"password"}
+          state={password}
+          setState={setPassword}
         />
-        <View style={styles.textAreaContainer}>
-          <TextInput
-            style={styles.textArea}
-            multiline
-            placeholder="Describe yourself in a few words..."
-            value={desc}
-            numberOfLines={4}
-            textAlignVertical="top"
-            onChangeText={(text) => setDesc(text)}
-          />
-        </View>
-        <View style={{ position: "relative" }}>
-          <TextInput
-            style={styles.input}
-            placeholder="password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry={!showPassword}
-          />
-          <AntDesign
-            style={styles.eye}
-            name={showPassword ? "eye" : "eye-invisible"}
-            size={18}
-            color="#868686"
-            onPress={() => {
-              setShowPassword((prev) => !prev);
-            }}
-          />
-        </View>
-        <TextInput
-          style={styles.input}
-          placeholder="confirm password"
-          value={confPassword}
-          onChangeText={(text) => setConfPassword(text)}
-          secureTextEntry={!showPassword}
+        <PasswordInput
+          placeholder={"confirm password"}
+          state={confPassword}
+          setState={setConfPassword}
         />
       </View>
       <View style={styles.registerContainer}>
-        <Text style={styles.errorMessage}>{errorMessage}</Text>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color={"#F8575C"} />
-          ) : (
-            <Text style={styles.btnText}>Sign up</Text>
-          )}
-        </TouchableOpacity>
-        <Link href="/signin" style={styles.linkText}>
-          Already have an account? Sign in
-        </Link>
+        <ErrorMessage text={errorMessage} />
+        <MainButton text={"Sign up"} func={handleSubmit} loading={loading} />
+        <RedirectButton text={"Already have an account? Sign in"} />
       </View>
       <StatusBar style="auto" />
     </KeyboardAwareScrollView>
@@ -155,58 +111,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 20,
   },
-  logo: {
-    height: 120,
-    width: 130,
-  },
-  logoLabel: {
-    fontSize: 24,
-    color: "#696969",
-  },
   inputContainer: {
-    paddingHorizontal: 50,
+    alignItems: "center",
     width: "100%",
     gap: 30,
-  },
-  input: {
-    borderBottomColor: "#FFCED2",
-    borderBottomWidth: 2,
-    height: 40,
-  },
-  textArea: {
-    borderColor: "#FFCED2",
-    borderWidth: 2,
-    height: 100,
   },
   registerContainer: {
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
-  },
-  errorMessage: {
-    color: "#FA868A",
-  },
-  btn: {
-    width: 180,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-    borderColor: "#F8575C",
-    borderWidth: 2,
-    padding: 15,
-    borderRadius: 50,
-  },
-  btnText: {
-    fontSize: 18,
-    color: "#676767",
-  },
-  linkText: {
-    color: "#868686",
-  },
-  eye: {
-    position: "absolute",
-    right: 5,
-    top: 11,
+    width: "100%",
   },
 });
 
