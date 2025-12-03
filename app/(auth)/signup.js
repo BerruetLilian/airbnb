@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import axios from "axios";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useState } from "react";
@@ -14,6 +13,8 @@ import {
   TextArea,
   Title,
 } from "../../components";
+import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "expo-router";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +24,8 @@ const SignUp = () => {
   const [confPassword, setConfPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const { signup } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async () => {
     if (!email || !password || !username || !desc || !confPassword) {
@@ -30,32 +33,27 @@ const SignUp = () => {
     } else if (password !== confPassword) {
       setErrorMessage("Please confirm your password");
     } else {
-      try {
-        setLoading(true);
-        const response = await axios.post(
-          "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/sign_up",
-          {
-            email: email,
-            username: username,
-            description: desc,
-            password: password,
+      setLoading(true);
+      signup(
+        {
+          email: email,
+          username: username,
+          description: desc,
+          password: password,
+        },
+        () => {
+          router.navigate("/profile");
+          setLoading(false);
+        },
+        (error) => {
+          if (error.name === "AxiosError") {
+            setErrorMessage(error.response.data.error);
+          } else {
+            setErrorMessage(error.message);
           }
-        );
-        console.log("response=>", response.data);
-        alert("Compte créé");
-        setLoading(false);
-      } catch (error) {
-        if (error.name === "AxiosError") {
-          console.log(error.response.data);
-
-          setErrorMessage(error.response.data.error);
-        } else {
-          console.log(error.message);
-          setErrorMessage(error.message);
+          setLoading(false);
         }
-
-        setLoading(false);
-      }
+      );
     }
   };
 
@@ -63,6 +61,7 @@ const SignUp = () => {
     <KeyboardAwareScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
+      enableOnAndroid={true}
     >
       <View style={styles.logoContainer}>
         <Logo />
@@ -105,7 +104,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  contentContainer: {},
+  contentContainer: {
+    flex: 1,
+    justifyContent: "space-around",
+  },
   logoContainer: {
     alignItems: "center",
     gap: 20,

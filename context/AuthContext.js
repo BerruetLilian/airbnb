@@ -3,9 +3,7 @@ import axios from "axios";
 
 export const AuthContext = createContext();
 
-// le provider
 export const AuthContextProvider = ({ children }) => {
-  const [isConnected, setIsConnected] = useState(false);
   const [userID, setUserID] = useState("");
   const [userToken, setUserToken] = useState("");
 
@@ -34,8 +32,27 @@ export const AuthContextProvider = ({ children }) => {
     setUserID("");
   };
 
+  const signup = async (body, callBackSuccess, callBackError) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/sign_up",
+        body
+      );
+      console.log("signup response => ", response.data);
+      callBackSuccess(response.data);
+    } catch (error) {
+      if (error.name === "AxiosError") {
+        console.log(error.response.data);
+      } else {
+        console.log(error.message);
+      }
+      callBackError(error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ userToken, userID, login, logout }}>
+    <AuthContext.Provider value={{ userToken, userID, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );

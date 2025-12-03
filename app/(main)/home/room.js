@@ -1,10 +1,18 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { useRouter } from "expo-router";
 
 const Room = () => {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <Text>Room</Text>
+      <Button
+        title="GO TO ROOMS"
+        onPress={() => {
+          router.push("/home//rooms");
+        }}
+      />
       <StatusBar style="auto" />
     </View>
   );

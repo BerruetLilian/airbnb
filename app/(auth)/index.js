@@ -1,5 +1,4 @@
 import { StyleSheet, View, StatusBar } from "react-native";
-import axios from "axios";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useState } from "react";
@@ -13,6 +12,7 @@ import {
   ErrorMessage,
 } from "../../components";
 import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "expo-router";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +20,7 @@ const SignIn = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async () => {
     if (!email || !password) {
@@ -29,8 +30,8 @@ const SignIn = () => {
       login(
         { email: email, password: password },
         () => {
-          alert("Connecté");
           setLoading(false);
+          router.navigate("/profile");
         },
         (error) => {
           if (error.name === "AxiosError") {
@@ -52,6 +53,7 @@ const SignIn = () => {
     <KeyboardAwareScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
+      enableOnAndroid={true}
     >
       <View style={styles.logoContainer}>
         <Logo />
@@ -80,7 +82,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  contentContainer: {},
+  contentContainer: {
+    flex: 1,
+    justifyContent: "space-around",
+  },
   logoContainer: {
     alignItems: "center",
     gap: 20,
