@@ -61,7 +61,6 @@ const SignUp = () => {
     <KeyboardAwareScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
-      enableOnAndroid={true}
     >
       <View style={styles.logoContainer}>
         <Logo />
@@ -101,12 +100,12 @@ const SignUp = () => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
-    flex: 1,
     backgroundColor: "#fff",
   },
   contentContainer: {
-    flex: 1,
     justifyContent: "space-around",
+    flexGrow: 1,
+    paddingBottom: 42,
   },
   logoContainer: {
     alignItems: "center",
