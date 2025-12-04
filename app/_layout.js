@@ -1,10 +1,10 @@
 import { AuthContextProvider } from "../context/AuthContext";
-import RootNavigation from "../navigation/RootNavigator";
+import RootNavigator from "../navigation/RootNavigator";
 
 const RootLayout = () => {
   return (
     <AuthContextProvider>
-      <RootNavigation />
+      <RootNavigator />
     </AuthContextProvider>
   );
 };

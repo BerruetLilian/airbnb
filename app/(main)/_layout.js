@@ -1,7 +1,9 @@
 import { Tabs } from "expo-router";
 
 const MainLayout = () => {
-  return <Tabs screenOptions={{ headerShown: false }} />;
+  return (
+    <Tabs screenOptions={{ headerShown: false }} initialRouteName="home" />
+  );
 };
 
 export default MainLayout;

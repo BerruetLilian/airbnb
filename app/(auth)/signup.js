@@ -14,7 +14,6 @@ import {
   Title,
 } from "../../components";
 import { useAuth } from "../../context/AuthContext";
-import { useRouter } from "expo-router";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +24,6 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
-  const router = useRouter();
 
   const handleSubmit = async () => {
     if (!email || !password || !username || !desc || !confPassword) {
@@ -42,7 +40,6 @@ const SignUp = () => {
           password: password,
         },
         () => {
-          router.navigate("/profile");
           setLoading(false);
         },
         (error) => {

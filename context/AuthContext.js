@@ -40,6 +40,8 @@ export const AuthContextProvider = ({ children }) => {
         body
       );
       console.log("signup response => ", response.data);
+      setUserID(response.data.id);
+      setUserToken(response.data.token);
       callBackSuccess(response.data);
     } catch (error) {
       if (error.name === "AxiosError") {

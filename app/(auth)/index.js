@@ -12,7 +12,6 @@ import {
   ErrorMessage,
 } from "../../components";
 import { useAuth } from "../../context/AuthContext";
-import { useRouter } from "expo-router";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +19,6 @@ const SignIn = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  const router = useRouter();
 
   const handleSubmit = async () => {
     if (!email || !password) {
@@ -31,7 +29,6 @@ const SignIn = () => {
         { email: email, password: password },
         () => {
           setLoading(false);
-          router.navigate("/profile");
         },
         (error) => {
           if (error.name === "AxiosError") {
