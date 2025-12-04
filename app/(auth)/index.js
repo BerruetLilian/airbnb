@@ -12,6 +12,8 @@ import {
   ErrorMessage,
 } from "../../components";
 import { useAuth } from "../../context/AuthContext";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -25,24 +27,30 @@ const SignIn = () => {
       setErrorMessage("Please fill all fields");
     } else {
       setLoading(true);
-      login(
-        { email: email, password: password },
-        () => {
-          setLoading(false);
-        },
-        (error) => {
-          if (error.name === "AxiosError") {
-            if (error.response.data.error === "Unauthorized") {
-              setErrorMessage("Mot de passe invalide");
-            } else {
-              setErrorMessage(error.response.data.error);
-            }
+      try {
+        const response = await axios.post(
+          "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/log_in",
+          { email: email, password: password }
+        );
+        console.log("login response => ", response.data);
+        login(response.data.id, response.data.token);
+        await AsyncStorage.setItem("userID", response.data.id);
+        await AsyncStorage.setItem("userToken", response.data.token);
+        setLoading(false);
+      } catch (error) {
+        if (error.name === "AxiosError") {
+          console.log(error.response.data);
+          if (error.response.data.error === "Unauthorized") {
+            setErrorMessage("Mot de passe invalide");
           } else {
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.error);
           }
-          setLoading(false);
+        } else {
+          setErrorMessage(error.message);
+          console.log(error.message);
         }
-      );
+        setLoading(false);
+      }
     }
   };
 

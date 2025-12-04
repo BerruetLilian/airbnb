@@ -14,6 +14,8 @@ import {
   Title,
 } from "../../components";
 import { useAuth } from "../../context/AuthContext";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +25,7 @@ const SignUp = () => {
   const [confPassword, setConfPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signup } = useAuth();
+  const { login } = useAuth();
 
   const handleSubmit = async () => {
     if (!email || !password || !username || !desc || !confPassword) {
@@ -32,25 +34,31 @@ const SignUp = () => {
       setErrorMessage("Please confirm your password");
     } else {
       setLoading(true);
-      signup(
-        {
-          email: email,
-          username: username,
-          description: desc,
-          password: password,
-        },
-        () => {
-          setLoading(false);
-        },
-        (error) => {
-          if (error.name === "AxiosError") {
-            setErrorMessage(error.response.data.error);
-          } else {
-            setErrorMessage(error.message);
+      try {
+        const response = await axios.post(
+          "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/sign_up",
+          {
+            email: email,
+            username: username,
+            description: desc,
+            password: password,
           }
-          setLoading(false);
+        );
+        console.log("signup response => ", response.data);
+        await AsyncStorage.setItem("userID", response.data.id);
+        await AsyncStorage.setItem("userToken", response.data.token);
+        login(response.data.id, response.data.token);
+        setLoading(false);
+      } catch (error) {
+        if (error.name === "AxiosError") {
+          console.log(error.response.data);
+          setErrorMessage(error.response.data.error);
+        } else {
+          console.log(error.message);
+          setErrorMessage(error.message);
         }
-      );
+        callBackError(error);
+      }
     }
   };
 
