@@ -76,7 +76,6 @@ const Room = () => {
               />
             </View>
           </Pressable>
-          <StatusBar style="auto" />
         </ScrollView>
       )}
     </>

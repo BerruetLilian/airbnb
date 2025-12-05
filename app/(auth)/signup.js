@@ -95,7 +95,6 @@ const SignUp = () => {
           screen={"/"}
         />
       </View>
-      <StatusBar style="auto" />
     </KeyboardAwareScrollView>
   );
 };

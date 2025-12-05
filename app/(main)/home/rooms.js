@@ -56,7 +56,6 @@ const Rooms = () => {
             }}
             ItemSeparatorComponent={() => <Divider />}
           />
-          <StatusBar style="auto" />
         </View>
       )}
     </>

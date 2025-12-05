@@ -73,7 +73,6 @@ const SignIn = () => {
         <MainButton text={"Sign in"} func={handleSubmit} loading={loading} />
         <RedirectButton text={"No account? Register"} screen={"/signup"} />
       </View>
-      <StatusBar style="auto" />
     </KeyboardAwareScrollView>
   );
 };

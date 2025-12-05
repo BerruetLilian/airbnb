@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AuthContext = createContext();
@@ -26,10 +26,11 @@ export const AuthContextProvider = ({ children }) => {
       try {
         const userID = await AsyncStorage.getItem("userID");
         const userToken = await AsyncStorage.getItem("userToken");
+        console.log(userID, userToken);
 
         if (userID && userToken) {
-          setUserID(id);
-          setUserToken(token);
+          setUserID(userID);
+          setUserToken(userToken);
         }
       } catch (error) {
         console.log(error);

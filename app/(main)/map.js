@@ -5,7 +5,6 @@ const Map = () => {
   return (
     <View style={styles.container}>
       <Text>Map</Text>
-      <StatusBar style="auto" />
     </View>
   );
 };

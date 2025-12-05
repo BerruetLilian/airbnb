@@ -3,6 +3,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import colors from "../../assets/colors.json";
+import { Logo } from "../../components/";
 
 const MainLayout = () => {
   return (
