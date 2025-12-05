@@ -50,12 +50,7 @@ const Rooms = () => {
                     });
                   }}
                 >
-                  <RoomItem
-                    room={item}
-                    func={() => {
-                      console.log("click");
-                    }}
-                  />
+                  <RoomItem room={item} />
                 </Pressable>
               );
             }}

@@ -7,7 +7,11 @@ import colors from "../../assets/colors.json";
 const MainLayout = () => {
   return (
     <Tabs
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: colors.pink }}
+      screenOptions={{
+        tabBarActiveTintColor: colors.pink,
+        headerTitle: () => <Logo size={35} />,
+        headerTitleAlign: "center",
+      }}
       initialRouteName="home"
     >
       <Tabs.Screen
@@ -17,6 +21,7 @@ const MainLayout = () => {
           tabBarIcon: ({ color }) => (
             <FontAwesome name="home" size={24} color={color} />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen

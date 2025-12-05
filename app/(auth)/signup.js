@@ -15,7 +15,6 @@ import {
 } from "../../components";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -45,8 +44,6 @@ const SignUp = () => {
           }
         );
         console.log("signup response => ", response.data);
-        await AsyncStorage.setItem("userID", response.data.id);
-        await AsyncStorage.setItem("userToken", response.data.token);
         login(response.data.id, response.data.token);
         setLoading(false);
       } catch (error) {

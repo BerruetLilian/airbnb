@@ -13,7 +13,6 @@ import {
 } from "../../components";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -34,8 +33,6 @@ const SignIn = () => {
         );
         console.log("login response => ", response.data);
         login(response.data.id, response.data.token);
-        await AsyncStorage.setItem("userID", response.data.id);
-        await AsyncStorage.setItem("userToken", response.data.token);
         setLoading(false);
       } catch (error) {
         if (error.name === "AxiosError") {
